@@ -65,6 +65,19 @@ class Lista:
         str_aux = str_aux.replace(",]","]")
         return str_aux
 
+    def insertBetween(self,node,prev,next):
+        """
+        Método para inserir um elemento entre dois nós
+
+        """
+        node.next = next
+        node.prev = prev
+        auxNode = self.init 
+        while (auxNode.x != node.prev.x):
+            auxNode = auxNode.next
+        auxNode.next = node 
+        auxNode.next.next = node.next 
+        
 
 if __name__ == '__main__':
     lista = Lista()
@@ -73,4 +86,5 @@ if __name__ == '__main__':
     print(lista)
     lista.append(Node(x=5))
     lista.append(Node(x=19))
+    lista.insertBetween(Node(x=100),Node(x=5),Node(x=19))
     print(lista)
