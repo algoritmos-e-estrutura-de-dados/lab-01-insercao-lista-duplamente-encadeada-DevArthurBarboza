@@ -13,6 +13,7 @@ class Lista:
         self.init = None
         self.tail = None
 
+
     def append(self, node):
         """
         Método para inserir um elemento no final
@@ -25,8 +26,12 @@ class Lista:
             self.tail = node
             return
 
-        self.tail.next = node
+        node_aux = self.init
+        while (node_aux.next is not None):
+            node_aux = node_aux.next
         node.prev = self.tail
+        node_aux.next = node
+        self.tail = node 
 
 
     def add(self, node):
@@ -41,9 +46,15 @@ class Lista:
             self.tail = node
             return
 
-        node.next = self.init
-        self.init = node
+        node_aux = self.init
+        while (node_aux.next is not None):
+            node_aux = node_aux.next
+        node_aux = node
 
+        node.next = self.init
+        self.init.prev = node
+        self.init = node
+        
     def __str__(self):
         str_aux = '['
         node_aux = self.init
@@ -51,8 +62,22 @@ class Lista:
             str_aux += str(node_aux.x) + ','
             node_aux = node_aux.next
         str_aux += ']'
+        str_aux = str_aux.replace(",]","]")
         return str_aux
 
+    def insertBetween(self,node,prev,next):
+        """
+        Método para inserir um elemento entre dois nós
+
+        """
+        node.next = next
+        node.prev = prev
+        auxNode = self.init 
+        while (auxNode.x != node.prev.x):
+            auxNode = auxNode.next
+        auxNode.next = node 
+        auxNode.next.next = node.next 
+        
 
 if __name__ == '__main__':
     lista = Lista()
@@ -61,4 +86,5 @@ if __name__ == '__main__':
     print(lista)
     lista.append(Node(x=5))
     lista.append(Node(x=19))
+    lista.insertBetween(Node(x=100),Node(x=5),Node(x=19))
     print(lista)
